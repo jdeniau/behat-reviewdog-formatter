@@ -1,6 +1,6 @@
 <?php
 
-namespace JDeniau\ReviewdogFormatterExtension;
+namespace JDeniau\BehatReviewdogFormatter;
 
 use Behat\Testwork\Output\Printer\OutputPrinter;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace JDeniau\ReviewdogFormatterExtension;
+namespace JDeniau\BehatReviewdogFormatter;
 
 use Behat\Testwork\Output\ServiceContainer\OutputExtension;
 use Behat\Testwork\ServiceContainer\Extension;

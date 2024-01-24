@@ -1,6 +1,6 @@
 <?php
 
-namespace JDeniau\ReviewdogFormatterExtension;
+namespace JDeniau\BehatReviewdogFormatter;
 
 use Behat\Behat\Context\Environment\InitializedContextEnvironment;
 use Behat\Behat\EventDispatcher\Event\AfterStepTested;
