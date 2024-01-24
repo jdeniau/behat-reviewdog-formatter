@@ -1,0 +1,27 @@
+{
+    "name": "jdeniau/behat-reviewdog-formatter",
+    "description": "A behat formatter that does output to rdjsonl to be handled by reviewdog",
+    "type": "library",
+    "require": {
+        "behat/behat": "^3"
+    },
+    "suggest": {
+        "friends-of-behat/mink-extension": "To extract data from mink context."
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "friends-of-behat/mink-extension": "^2.7"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Jdeniau\\BehatReviewdogFormatter\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Julien Deniau",
+            "email": "julien.deniau@gmail.com"
+        }
+    ]
+}
