@@ -10,7 +10,7 @@ class ReviewdogOutputPrinter implements OutputPrinter
 
     private ?string $outputPath = null;
 
-    private string $fileName = 'reviewdog.json';
+    private string $fileName = 'reviewdog-behat.json';
 
     public function __construct(private readonly string $pathBase)
     {
