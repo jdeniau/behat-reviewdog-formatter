@@ -14,7 +14,7 @@ class ReviewdogFormatterExtension implements Extension
 {
     public function getConfigKey()
     {
-        return 'reviewdog_formater';
+        return 'reviewdog_formatter';
     }
 
     /**
