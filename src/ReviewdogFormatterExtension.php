@@ -36,9 +36,15 @@ class ReviewdogFormatterExtension implements Extension
      */
     public function load(ContainerBuilder $container, array $config): void
     {
-        $definition = $container->register(ReviewdogFormatter::class);
-        $definition->addArgument('%paths.base%');
-        $definition->addTag(OutputExtension::FORMATTER_TAG, [
+        $outputPrinterDefinition = $container->register(
+            ReviewdogOutputPrinter::class
+        );
+        $outputPrinterDefinition->addArgument('%paths.base%');
+
+        $formatterDefinition = $container->register(ReviewdogFormatter::class);
+        $formatterDefinition->addArgument('%paths.base%');
+        $formatterDefinition->addArgument($outputPrinterDefinition);
+        $formatterDefinition->addTag(OutputExtension::FORMATTER_TAG, [
             'priority' => 100,
         ]);
     }
