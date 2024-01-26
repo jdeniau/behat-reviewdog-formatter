@@ -2,7 +2,8 @@
 
 namespace JDeniau\BehatReviewdogFormatter;
 
-use Behat\Behat\Context\Environment\ContextEnvironment;
+use FriendsOfBehat\SymfonyExtension\Context\Environment\InitializedSymfonyExtensionEnvironment;
+use Behat\Behat\Context\Environment\InitializedContextEnvironment;
 use Behat\Behat\EventDispatcher\Event\AfterStepTested;
 use Behat\Behat\EventDispatcher\Event\BeforeScenarioTested;
 use Behat\Behat\EventDispatcher\Event\ScenarioTested;
@@ -75,7 +76,10 @@ class ReviewdogFormatter implements Formatter
     {
         $environment = $event->getEnvironment();
 
-        if (!$environment instanceof ContextEnvironment) {
+        if (
+            !$environment instanceof InitializedContextEnvironment &&
+            !$environment instanceof InitializedSymfonyExtensionEnvironment
+        ) {
             return;
         }
 

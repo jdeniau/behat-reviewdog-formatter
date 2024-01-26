@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace JDeniau\BehatReviewdogFormatter\Tests;
 
-use Behat\Behat\Context\Environment\ContextEnvironment;
+use Behat\Behat\Context\Environment\InitializedContextEnvironment;
 use Behat\Behat\EventDispatcher\Event\AfterStepTested;
 use Behat\Behat\EventDispatcher\Event\BeforeScenarioTested;
 use Behat\Behat\Tester\Result\ExecutedStepResult;
@@ -14,18 +14,11 @@ use Behat\Gherkin\Node\StepNode;
 use Behat\Mink\Element\DocumentElement;
 use Behat\Mink\Session;
 use Behat\MinkExtension\Context\MinkContext;
-use Behat\Testwork\Environment\Environment;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
-use Behat\Testwork\Tester\Setup\Teardown;
 use JDeniau\BehatReviewdogFormatter\ReviewdogFormatter;
 use JDeniau\BehatReviewdogFormatter\ReviewdogOutputPrinter;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
-use Mockery\Mock;
-use PHPUnit\Framework\TestCase;
-use phpmock\phpunit\PHPMock;
-use PHPUnit\Framework\Attributes\After;
-use PHPUnit\Framework\Attributes\Before;
 
 /**
  * @covers \JDeniau\BehatReviewdogFormatter\ReviewdogFormatter
@@ -176,7 +169,9 @@ class ReviewdogFormatterTest extends MockeryTestCase
             ->once()
             ->andReturn($session);
 
-        $env = Mockery::mock(ContextEnvironment::class);
+        $env = Mockery::mock(
+            'overload:' . InitializedContextEnvironment::class
+        );
         $env->expects()
             ->hasContextClass()
             ->once()

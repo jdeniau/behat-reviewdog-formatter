@@ -6,7 +6,6 @@ namespace JDeniau\BehatReviewdogFormatter\Tests;
 
 use JDeniau\BehatReviewdogFormatter\ReviewdogOutputPrinter;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
-use PHPUnit\Framework\TestCase;
 use phpmock\phpunit\PHPMock;
 
 /**
@@ -52,6 +51,7 @@ class ReviewdogOutputPrinterTest extends MockeryTestCase
         $outputPrinter->removeOldFile();
     }
 
+    /** @return iterable<array{ fileExists: bool, unlink: int, filename: null|string }> */
     public static function removeOldFileDataProvider(): iterable
     {
         yield 'file does not exist' => [
