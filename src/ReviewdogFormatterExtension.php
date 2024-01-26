@@ -38,7 +38,9 @@ class ReviewdogFormatterExtension implements Extension
     {
         $definition = $container->register(ReviewdogFormatter::class);
         $definition->addArgument('%paths.base%');
-        $definition->addTag(OutputExtension::FORMATTER_TAG, ['priority' => 100]);
+        $definition->addTag(OutputExtension::FORMATTER_TAG, [
+            'priority' => 100,
+        ]);
     }
 
     /**

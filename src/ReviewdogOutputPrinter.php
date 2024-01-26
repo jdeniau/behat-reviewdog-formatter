@@ -102,7 +102,7 @@ class ReviewdogOutputPrinter implements OutputPrinter
      * {@inheritdoc}
      * @param string|array<string> $messages
      */
-     
+
     public function writeln($messages = ''): void
     {
         if (!is_array($messages)) {
@@ -137,7 +137,11 @@ class ReviewdogOutputPrinter implements OutputPrinter
             mkdir($this->getOutputPath(), 0777, true);
         }
 
-        file_put_contents($this->getFilePath(), implode("\n", $messages) . "\n", $append ? \FILE_APPEND : 0);
+        file_put_contents(
+            $this->getFilePath(),
+            implode("\n", $messages) . "\n",
+            $append ? \FILE_APPEND : 0
+        );
     }
 
     private function getFilePath(): string

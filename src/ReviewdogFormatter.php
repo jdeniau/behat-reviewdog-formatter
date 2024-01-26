@@ -85,20 +85,27 @@ class ReviewdogFormatter implements Formatter
         $this->minkContext = $environment->getContext(MinkContext::class);
     }
 
-    public function onBeforeExercise(BeforeExerciseCompleted $event):void
+    public function onBeforeExercise(BeforeExerciseCompleted $event): void
     {
         $this->outputPrinter->removeOldFile();
     }
 
-    public function onAfterStepTested(AfterStepTested $event):void
+    public function onAfterStepTested(AfterStepTested $event): void
     {
         $testResult = $event->getTestResult();
 
-        if ($testResult->isPassed() || !$testResult instanceof ExecutedStepResult) {
+        if (
+            $testResult->isPassed() ||
+            !$testResult instanceof ExecutedStepResult
+        ) {
             return;
         }
 
-        $path = str_replace($this->pathsBase . '/', '', $event->getFeature()->getFile() ?? '');
+        $path = str_replace(
+            $this->pathsBase . '/',
+            '',
+            $event->getFeature()->getFile() ?? ''
+        );
 
         $message = $testResult->getException()?->getMessage() ?? 'Failed step';
 
@@ -148,9 +155,17 @@ class ReviewdogFormatter implements Formatter
         }
 
         try {
-            $json = json_decode($originalOutput, true, 512, \JSON_THROW_ON_ERROR);
+            $json = json_decode(
+                $originalOutput,
+                true,
+                512,
+                \JSON_THROW_ON_ERROR
+            );
 
-            return json_encode($json, \JSON_THROW_ON_ERROR | \JSON_PRETTY_PRINT);
+            return json_encode(
+                $json,
+                \JSON_THROW_ON_ERROR | \JSON_PRETTY_PRINT
+            );
         } catch (\JsonException $e) {
             // split content every 80 chars
             $originalOutput = wordwrap($originalOutput, 80, "\n", true);
