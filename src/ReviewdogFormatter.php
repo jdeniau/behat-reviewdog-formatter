@@ -8,20 +8,21 @@ use Behat\Behat\EventDispatcher\Event\BeforeScenarioTested;
 use Behat\Behat\EventDispatcher\Event\ScenarioTested;
 use Behat\Behat\EventDispatcher\Event\StepTested;
 use Behat\Behat\Tester\Result\ExecutedStepResult;
+use Behat\Mink\Element\DocumentElement;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
 use Behat\Testwork\Output\Formatter;
 use Behat\Testwork\Output\Printer\OutputPrinter;
+use Mockery;
 
 class ReviewdogFormatter implements Formatter
 {
     private ?MinkContext $minkContext = null;
 
-    private readonly ReviewdogOutputPrinter $outputPrinter;
-
-    public function __construct(private readonly string $pathsBase)
-    {
-        $this->outputPrinter = new ReviewdogOutputPrinter($this->pathsBase);
+    public function __construct(
+        private readonly string $pathsBase,
+        private readonly ReviewdogOutputPrinter $outputPrinter
+    ) {
     }
 
     public function setParameter($name, $value): void
