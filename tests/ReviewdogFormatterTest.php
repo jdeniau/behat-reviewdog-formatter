@@ -42,6 +42,22 @@ class ReviewdogFormatterTest extends MockeryTestCase
         );
     }
 
+    public function testBeforeExerciseWithoutRemovingOldFile(): void
+    {
+        $outputPrinter = Mockery::mock(ReviewdogOutputPrinter::class);
+        $outputPrinter
+            ->expects()
+            ->removeOldFile()
+            ->never();
+
+        $formatter = new ReviewdogFormatter('/tmp', $outputPrinter);
+        $formatter->setParameter('remove_old_file', false);
+
+        $formatter->onBeforeExercise(
+            Mockery::mock('overload:' . BeforeExerciseCompleted::class)
+        );
+    }
+
     public function testOnAfterStepTestedSkipOutput(): void
     {
         $outputPrinter = Mockery::mock(ReviewdogOutputPrinter::class);

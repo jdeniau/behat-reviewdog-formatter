@@ -20,6 +20,8 @@ class ReviewdogFormatter implements Formatter
 {
     private ?MinkContext $minkContext = null;
 
+    private bool $removeOldFile = true;
+
     public function __construct(
         private readonly string $pathsBase,
         private readonly ReviewdogOutputPrinter $outputPrinter
@@ -36,6 +38,17 @@ class ReviewdogFormatter implements Formatter
 
                 $this->outputPrinter->setFileName($value);
                 break;
+
+            case 'remove_old_file':
+                if (!is_bool($value)) {
+                    throw new \RuntimeException(
+                        'remove_old_file must be a boolean'
+                    );
+                }
+
+                $this->removeOldFile = $value;
+                break;
+
             default:
                 throw new \Exception('Unknown parameter ' . $name);
         }
@@ -92,7 +105,9 @@ class ReviewdogFormatter implements Formatter
 
     public function onBeforeExercise(BeforeExerciseCompleted $event): void
     {
-        $this->outputPrinter->removeOldFile();
+        if ($this->removeOldFile !== false) {
+            $this->outputPrinter->removeOldFile();
+        }
     }
 
     public function onAfterStepTested(AfterStepTested $event): void
