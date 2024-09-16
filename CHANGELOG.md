@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [0.3.1]
+
+- Handle DriverException [#3](https://github.com/jdeniau/behat-reviewdog-formatter/pull/3) by [@jdeniau](https://github.com/jdeniau)
+
 ## [0.3.0]
 
 - Possibility to keep old file by passing `remove_old_file: false` in the formatter configuration.
