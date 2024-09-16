@@ -12,6 +12,7 @@ use Behat\Behat\Tester\Result\StepResult;
 use Behat\Gherkin\Node\FeatureNode;
 use Behat\Gherkin\Node\StepNode;
 use Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Exception\DriverException;
 use Behat\Mink\Session;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
@@ -215,6 +216,110 @@ class ReviewdogFormatterTest extends MockeryTestCase
             ->once()
             ->with(
                 '{"message":"some exception","location":{"path":"feature.feature","range":{"start":{"line":20,"column":0}}},"severity":"ERROR","source":{"name":"behat"},"original_output":"mink page content !"}'
+            );
+
+        $step = Mockery::mock(StepNode::class);
+        $step
+            ->expects()
+            ->getLine()
+            ->once()
+            ->andReturn(20);
+
+        $stepResult = Mockery::mock('overload:' . ExecutedStepResult::class);
+        $stepResult
+            ->expects()
+            ->isPassed()
+            ->andReturn(false);
+        $stepResult
+            ->expects()
+            ->getException()
+            ->andReturn(new \Exception('some exception'));
+
+        $afterStepEvent = Mockery::mock('overload:' . AfterStepTested::class);
+        $afterStepEvent
+            ->expects()
+            ->getTestResult()
+            ->once()
+            ->andReturn($stepResult);
+        $afterStepEvent
+            ->expects()
+            ->getStep()
+            ->andReturn($step);
+
+        $featureNode = Mockery::mock(FeatureNode::class);
+        $featureNode
+            ->expects()
+            ->getFile()
+            ->once()
+            ->andReturn('/tmp/feature.feature');
+        $afterStepEvent
+            ->expects()
+            ->getFeature()
+            ->once()
+            ->andReturn($featureNode);
+
+        $formatter->onAfterStepTested($afterStepEvent);
+    }
+
+    public function testMinkResponseInexistant(): void
+    {
+        $outputPrinter = Mockery::mock(ReviewdogOutputPrinter::class);
+        $formatter = new ReviewdogFormatter('/tmp', $outputPrinter);
+
+        $page = Mockery::mock(DocumentElement::class);
+        $page
+            ->expects()
+            ->getContent()
+            ->andThrow(
+                new DriverException(
+                    'Unable to access the response before visiting a page'
+                )
+            );
+
+        $session = Mockery::mock(Session::class);
+        $session
+            ->expects()
+            ->getPage()
+            ->once()
+            ->andReturn($page);
+
+        $minkContext = Mockery::mock(MinkContext::class);
+        $minkContext
+            ->expects()
+            ->getSession()
+            ->once()
+            ->andReturn($session);
+
+        $env = Mockery::mock(
+            'overload:' . InitializedContextEnvironment::class
+        );
+        $env->expects()
+            ->hasContextClass()
+            ->once()
+            ->with(MinkContext::class)
+            ->andReturn(true);
+        $env->expects()
+            ->getContext()
+            ->once()
+            ->with(MinkContext::class)
+            ->andReturn($minkContext);
+
+        $beforeScenarioTestedEvent = Mockery::mock(
+            'overload:' . BeforeScenarioTested::class
+        );
+        $beforeScenarioTestedEvent
+            ->expects()
+            ->getEnvironment()
+            ->once()
+            ->andReturn($env);
+        $formatter->gatherBaseContexts($beforeScenarioTestedEvent);
+
+        $outputPrinter
+            ->expects()
+            ->writeln()
+            ->once()
+            ->with(
+                '{"message":"some exception","location":{"path":"feature.feature","range":{"start":{"line":20,"column":0}}},"severity":"ERROR","source":{"name":"behat"}}'
             );
 
         $step = Mockery::mock(StepNode::class);

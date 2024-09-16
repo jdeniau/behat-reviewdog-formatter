@@ -10,6 +10,7 @@ use Behat\Behat\EventDispatcher\Event\ScenarioTested;
 use Behat\Behat\EventDispatcher\Event\StepTested;
 use Behat\Behat\Tester\Result\ExecutedStepResult;
 use Behat\Mink\Element\DocumentElement;
+use Behat\Mink\Exception\DriverException;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Testwork\EventDispatcher\Event\BeforeExerciseCompleted;
 use Behat\Testwork\Output\Formatter;
@@ -165,10 +166,16 @@ class ReviewdogFormatter implements Formatter
             return null;
         }
 
+        try {
         $originalOutput = $this->minkContext
             ->getSession()
             ->getPage()
             ->getContent();
+        } catch (DriverException $e) {
+            // See https://github.com/FriendsOfBehat/MinkBrowserKitDriver/blob/4f7d58037f8aa5f3aa17308cb6341b029859ea65/src/BrowserKitDriver.php#L541
+            // we don't have an output there, so let's return null
+            return null;
+        }
 
         if (!$originalOutput) {
             return null;
