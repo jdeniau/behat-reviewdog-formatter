@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.4.0]
+
 - Support Behat 4 [#4](https://github.com/jdeniau/behat-reviewdog-formatter/pull/4) by [@nikophil](https://github.com/nikophil)
 
 ## [0.3.1]
