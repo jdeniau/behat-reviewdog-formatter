@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class ReviewdogFormatterExtension implements Extension
 {
-    public function getConfigKey()
+    public function getConfigKey(): string
     {
         return 'reviewdog_formatter';
     }
