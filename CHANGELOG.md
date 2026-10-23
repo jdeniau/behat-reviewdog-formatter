@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [Unreleased]
+
+- Support Behat 4 [#4](https://github.com/jdeniau/behat-reviewdog-formatter/pull/4) by [@nikophil](https://github.com/nikophil)
+
 ## [0.3.1]
 
 - Handle DriverException [#3](https://github.com/jdeniau/behat-reviewdog-formatter/pull/3) by [@jdeniau](https://github.com/jdeniau)
