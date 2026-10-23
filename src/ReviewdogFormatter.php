@@ -29,7 +29,10 @@ class ReviewdogFormatter implements Formatter
     ) {
     }
 
-    public function setParameter($name, $value): void
+    /**
+     * @param string $name
+     */
+    public function setParameter($name, mixed $value): void
     {
         switch ($name) {
             case 'file_name':
@@ -55,11 +58,15 @@ class ReviewdogFormatter implements Formatter
         }
     }
 
-    public function getParameter($name)
+    /**
+     * @param string $name
+     */
+    public function getParameter($name): mixed
     {
+        return null;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             StepTested::AFTER => 'onAfterStepTested',

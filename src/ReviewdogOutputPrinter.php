@@ -23,6 +23,7 @@ class ReviewdogOutputPrinter implements OutputPrinter
 
     /**
      * {@inheritdoc}
+     * @param string $path
      */
     public function setOutputPath($path): void
     {
@@ -49,13 +50,14 @@ class ReviewdogOutputPrinter implements OutputPrinter
      * {@inheritdoc}
      * @return array<mixed>
      */
-    public function getOutputStyles()
+    public function getOutputStyles(): array
     {
         return [];
     }
 
     /**
      * {@inheritdoc}
+     * @param bool $decorated
      */
     public function setOutputDecorated($decorated): void
     {
@@ -65,13 +67,14 @@ class ReviewdogOutputPrinter implements OutputPrinter
     /**
      * {@inheritdoc}
      */
-    public function isOutputDecorated()
+    public function isOutputDecorated(): ?bool
     {
         return $this->isOutputDecorated;
     }
 
     /**
      * {@inheritdoc}
+     * @param int $level
      */
     public function setOutputVerbosity($level): void
     {
@@ -80,7 +83,7 @@ class ReviewdogOutputPrinter implements OutputPrinter
     /**
      * {@inheritdoc}
      */
-    public function getOutputVerbosity()
+    public function getOutputVerbosity(): int
     {
         return 0;
     }
