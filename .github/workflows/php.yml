@@ -9,15 +9,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        behat: ['3', '4']
 
     steps:
       - uses: actions/checkout@v2
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
 
       - name: Validate composer.json and composer.lock
         run: composer validate
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Downgrade to Behat 3
+        if: matrix.behat == '3'
+        run: composer update behat/behat:^3.34 friends-of-behat/mink-extension:^2.7 friends-of-behat/symfony-extension -W --prefer-dist --no-progress
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse
